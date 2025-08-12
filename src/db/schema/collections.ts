@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { integer, pgTable, text } from 'drizzle-orm/pg-core'
-import { photos } from './photos.ts'
-import { users } from './users.ts'
+import { photos } from './photos'
+import { users } from './users'
 
 export const collections = pgTable('collections', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

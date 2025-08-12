@@ -9,15 +9,7 @@ const registerBodySchema = z.object({
   password: z.string(),
 })
 
-const registerSuccessResponseSchema = z.object({
-  user: z.object({
-    id: z.number(),
-    name: z.string(),
-    email: z.email(),
-    role: z.enum(['admin', 'user']),
-    createdAt: z.date(),
-  }),
-})
+const registerSuccessResponseSchema = z.null()
 
 const registerBadRequestResponseSchema = z.object({
   message: z.string(),
@@ -46,18 +38,20 @@ export const registerRoute: FastifyPluginAsyncZod = async app => {
       try {
         const { name, email, password } = request.body
 
-        const { user } = await createUser({ name, email, password })
+        await createUser({ name, email, password })
 
-        return reply.status(201).send({ user })
-      } catch (error) {
-        if (error instanceof BaseError) {
-          switch (error.constructor.name) {
+        return reply.status(201).send()
+      } catch (err) {
+        if (err instanceof BaseError) {
+          switch (err.constructor.name) {
             case 'EmailAlreadyExistsError':
               return reply.status(409).send({ message: 'Email already exists' })
             default:
-              throw error
+              throw err
           }
         }
+
+        throw err
       }
     }
   )

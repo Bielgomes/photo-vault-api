@@ -1,12 +1,10 @@
+import { reset } from 'drizzle-seed'
 import { hashPassword } from '@/utils/hash'
 import { db } from '.'
-import { collections } from './schema/collections'
-import { photos } from './schema/photos'
+import * as schema from './schema'
 import { users } from './schema/users'
 
-await db.delete(users)
-await db.delete(collections)
-await db.delete(photos)
+await reset(db, schema)
 
 await db.insert(users).values({
   name: 'Admin',
@@ -15,5 +13,6 @@ await db.insert(users).values({
   role: 'admin',
 })
 
-console.log('Database seeded!')
+console.log('Database seeded successfully!')
+
 process.exit()

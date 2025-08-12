@@ -23,22 +23,9 @@ export async function createUser({ name, email, password }: CreateUserInput) {
 
   const passwordHash = await hashPassword(password)
 
-  const [newUser] = await db
-    .insert(users)
-    .values({
-      name,
-      email,
-      passwordHash,
-    })
-    .returning({
-      id: users.id,
-      name: users.name,
-      email: users.email,
-      role: users.role,
-      createdAt: users.createdAt,
-    })
-
-  return {
-    user: newUser,
-  }
+  await db.insert(users).values({
+    name,
+    email,
+    passwordHash,
+  })
 }

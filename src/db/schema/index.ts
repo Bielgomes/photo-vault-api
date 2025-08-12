@@ -1,3 +1,3 @@
-export * as collectionsSchema from './collections'
-export * as photosSchema from './photos'
-export * as usersSchema from './users'
+export * from './collections'
+export * from './photos'
+export * from './users'

@@ -8,19 +8,22 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
-import { env } from './env.ts'
-import { registerRoute } from './routes/register.ts'
+import { env } from './env'
+import { registerRoute } from './routes/register'
 
 const app = fastify({
   logger: {
     level: 'info',
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname',
-      },
-    },
+    transport:
+      env.NODE_ENV === 'development'
+        ? {
+            target: 'pino-pretty',
+            options: {
+              translateTime: 'HH:MM:ss Z',
+              ignore: 'pid,hostname',
+            },
+          }
+        : undefined,
   },
 })
 
@@ -28,7 +31,7 @@ app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
 app.register(cors, {
-  origin: true,
+  origin: env.NODE_ENV !== 'production',
 })
 
 app
