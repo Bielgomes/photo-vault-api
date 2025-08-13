@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm'
-import { integer, pgTable, text } from 'drizzle-orm/pg-core'
+import { pgTable, text, uuid } from 'drizzle-orm/pg-core'
 import { collections } from './collections'
 
 export const photos = pgTable('photos', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   key: text().notNull(),
-  collectionId: integer('collection_id').references(() => collections.id, {
+  collectionId: uuid('collection_id').references(() => collections.id, {
     onDelete: 'set null',
   }),
 })

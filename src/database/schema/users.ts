@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm'
-import { integer, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { collections } from './collections'
 
 export const userRoleEnum = pgEnum('user_role', ['admin', 'user'])
 
 export const users = pgTable('users', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   name: text().notNull(),
   email: text().notNull().unique(),
   passwordHash: text('password_hash').notNull(),
