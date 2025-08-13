@@ -13,6 +13,12 @@ describe('POST /users', () => {
   })
 
   it('should return 409 when email already exists', async () => {
+    await request(app.server).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    })
+
     const response = await request(app.server).post('/users').send({
       name: 'John Deer',
       email: 'johndoe@example.com',

@@ -7,6 +7,6 @@ beforeAll(async () => {
   await app.ready()
 })
 
-afterAll(async () => {
+afterEach(async () => {
   await reset(db, schema)
 })
