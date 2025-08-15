@@ -5,14 +5,14 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start:dev": "tsx watch src/server.ts",
-    "start": "node build/server.js",
     "build": "tsup src --out-dir build",
+    "start": "node build/server.js",
+    "start:dev": "tsx watch src/server.ts",
     "test": "dotenv -e .env.test -- vitest",
     "test:run": "pnpm run db:migrate:test && dotenv -e .env.test -- vitest run --coverage",
     "lint": "biome check",
     "lint:fix": "biome check --write",
-    "db:seed": "tsx src/db/seed.ts",
+    "db:seed": "tsx drizzle/seed.ts",
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate"
   },
