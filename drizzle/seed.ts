@@ -1,6 +1,6 @@
 import { reset } from 'drizzle-seed'
+import { db } from '@/lib/drizzle'
 import { hashPassword } from '@/utils/hash'
-import { db } from '.'
 import * as schema from './schema'
 import { users } from './schema/users'
 

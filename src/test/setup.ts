@@ -1,7 +1,7 @@
 import { reset } from 'drizzle-seed'
 import { app } from '@/app'
-import { db } from '@/database'
-import * as schema from '../database/schema'
+import { db } from '@/lib/drizzle'
+import * as schema from '../../drizzle/schema'
 
 beforeAll(async () => {
   await app.ready()

@@ -1,6 +1,6 @@
+import { users } from 'drizzle/schema/users'
 import { eq } from 'drizzle-orm'
-import { db } from '@/database'
-import { users } from '@/database/schema/users'
+import { db } from '@/lib/drizzle'
 import { hashPassword } from '@/utils/hash'
 import { EmailAlreadyExistsError } from './errors/email-already-exists-error'
 
