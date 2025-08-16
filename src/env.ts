@@ -5,6 +5,7 @@ export const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
+  JWT_SECRET: z.string(),
   HOST: z.string().default('0.0.0.0'),
   PORT: z.coerce.number().default(3333),
   CLOUDFLARE_ENDPOINT: z.url(),

@@ -1,4 +1,5 @@
 import cors from '@fastify/cors'
+import jwt from '@fastify/jwt'
 import swagger from '@fastify/swagger'
 import scalarFastifyApiReference from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
@@ -33,6 +34,12 @@ app.setSerializerCompiler(serializerCompiler)
 app.register(cors, {
   origin: env.NODE_ENV !== 'production',
 })
+app.register(jwt, {
+  secret: env.JWT_SECRET,
+  sign: {
+    expiresIn: '1d',
+  },
+})
 
 app
   .register(swagger, {
@@ -48,6 +55,14 @@ app
           url: `http://localhost:${env.PORT}`,
         },
       ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+          },
+        },
+      },
     },
     transform: jsonSchemaTransform,
   })
