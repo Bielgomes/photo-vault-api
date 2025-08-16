@@ -5,7 +5,7 @@ export async function hashPassword(password: string) {
   return passwordHash
 }
 
-export async function comparePassword(passwordHash: string, password: string) {
-  const doesPasswordsMatch = await compare(passwordHash, password)
+export async function comparePassword(password: string, passwordHash: string) {
+  const doesPasswordsMatch = await compare(password, passwordHash)
   return doesPasswordsMatch
 }
