@@ -11,13 +11,13 @@ interface CreateUserInput {
 }
 
 export async function createUser({ name, email, password }: CreateUserInput) {
-  const existingUser = await db
+  const userWithSameEmail = await db
     .select({ id: users.id })
     .from(users)
     .where(eq(users.email, email))
     .limit(1)
 
-  if (existingUser.length > 0) {
+  if (userWithSameEmail.length > 0) {
     throw new EmailAlreadyExistsError()
   }
 

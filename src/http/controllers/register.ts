@@ -3,22 +3,6 @@ import z from 'zod'
 import { createUser } from '@/functions/create-user'
 import { BaseError } from '@/functions/errors/base-error'
 
-const registerBodySchema = z.object({
-  email: z.email(),
-  name: z.string(),
-  password: z.string(),
-})
-
-const registerSuccessResponseSchema = z.null()
-
-const registerBadRequestResponseSchema = z.object({
-  message: z.string(),
-})
-
-const registerConflictResponseSchema = z.object({
-  message: z.literal('Email already exists'),
-})
-
 export const registerRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/users',
@@ -26,11 +10,19 @@ export const registerRoute: FastifyPluginAsyncZod = async app => {
       schema: {
         description: 'Register a new user account',
         tags: ['users'],
-        body: registerBodySchema,
+        body: z.object({
+          email: z.email(),
+          name: z.string().min(1, 'Name must have 1 character'),
+          password: z.string(),
+        }),
         response: {
-          201: registerSuccessResponseSchema,
-          400: registerBadRequestResponseSchema,
-          409: registerConflictResponseSchema,
+          201: z.null().describe('User successfully registered'),
+          400: z.object({
+            message: z.string(),
+          }),
+          409: z.object({
+            message: z.literal('Email already exists'),
+          }),
         },
       },
     },

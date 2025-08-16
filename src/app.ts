@@ -10,22 +10,25 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env'
-import { registerRoute } from './routes/register'
+
+import { loginRoute } from './http/controllers/login'
+import { profileRoute } from './http/controllers/profile'
+import { registerRoute } from './http/controllers/register'
 
 const app = fastify({
-  logger: {
-    level: 'info',
-    transport:
-      env.NODE_ENV === 'development'
-        ? {
+  logger:
+    env.NODE_ENV === 'development'
+      ? {
+          level: 'info',
+          transport: {
             target: 'pino-pretty',
             options: {
               translateTime: 'HH:MM:ss Z',
               ignore: 'pid,hostname',
             },
-          }
-        : undefined,
-  },
+          },
+        }
+      : false,
 })
 
 app.setValidatorCompiler(validatorCompiler)
@@ -76,6 +79,8 @@ await app.register(scalarFastifyApiReference, {
 })
 
 await app.register(registerRoute)
+await app.register(loginRoute)
+await app.register(profileRoute)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error.validation) {
